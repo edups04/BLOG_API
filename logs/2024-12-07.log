@@ -6,3 +6,5 @@
 2024-12-07 21:54:52, POST, Flag, Created a new show record.
 2024-12-07 22:04:03, POST, Flag, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'batman' in 'field list'
 2024-12-07 22:28:02, POST, Flag, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vi' in 'field list'
+2024-12-07 23:20:38, POST, Flag, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data' in 'field list'
+2024-12-07 23:23:03, POST, Flag, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data' in 'field list'

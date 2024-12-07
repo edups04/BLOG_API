@@ -7,6 +7,7 @@ require_once "./modules/Post.php";
 require_once "./modules/Patch.php";
 require_once "./modules/Delete.php";
 require_once "./modules/Auth.php";
+require_once "./modules/Crypt.php";
 
 $db = new Connection();
 $pdo = $db->connect();
@@ -17,6 +18,7 @@ $patch = new Patch($pdo);
 $get = new Get($pdo);
 $delete = new Delete($pdo);
 $auth = new Authentication($pdo);
+$crypt = new Crypt();
 
 //retrieved and endpoints and split
 if(isset($_REQUEST['request'])){
@@ -36,25 +38,17 @@ switch($_SERVER['REQUEST_METHOD']){
         switch($request[0]){
 
             case "shows":
-                if(count($request) > 1){
-                    echo json_encode($get->getShows($request[1]));
-                }
-                else {
-                    echo json_encode($get->getShows());
-                }
+                $dataString = json_encode($get->getShows($request[1] ?? null));
+                echo $crypt->encryptData($dataString);
             break;
 
             case "channel":
-                if(count($request) > 1){
-                    echo json_encode($get->getChannel($request[1]));
-                }
-                else {
-                    echo json_encode($get->getChannel());
-                }
+                $dataString = json_encode($get->getChannel($request[1] ?? null));
+                echo $crypt->encryptData($body);
             break;
 
             case "log";
-                echo json_encode($get->getLogs($request[1]));
+                echo json_encode($get->getLogs($request[1] ?? date("Y-m-d")));
             break;
             
 
