@@ -44,6 +44,16 @@ switch($_SERVER['REQUEST_METHOD']){
                 }
             break;
 
+            case "channel":
+                if(count($request) > 1){
+                    echo json_encode($get->getChannel($request[1]));
+                }
+                else {
+                    echo json_encode($get->getChannel());
+                }
+            break;
+            
+
             default:
                 http_response_code(401);
                 echo "This is invalid endpoint";
@@ -58,7 +68,7 @@ switch($_SERVER['REQUEST_METHOD']){
 
 
     case "POST":
-        $body = json_decode(file_get_contents("php://input"));
+        $body = json_decode(file_get_contents("php://input"), true);
         switch($request[0]){
             case "login":
                 echo json_encode($auth->login($body));
@@ -70,6 +80,10 @@ switch($_SERVER['REQUEST_METHOD']){
 
             case "shows":
                 echo json_encode($post->postShows($body));
+            break;
+
+            case "channel":
+                echo json_encode($post->postChannel($body));
             break;
 
             default:

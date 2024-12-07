@@ -1,5 +1,6 @@
 <?php
-class Get{
+include_once "Common.php";
+class Get extends Common{
 
     protected $pdo;
 
@@ -8,36 +9,32 @@ class Get{
     }
   
     public function getShows($id = null){
-        $sqlString = "SELECT * FROM cards_tbl WHERE isdeleted=0";
+        $condition = "isdeleted = 0";
         if($id != null){
-            $sqlString .= " AND id=" . $id;
+            $condition .= " AND bump_id=" . $id;
         }
 
-        
-        $data = array();
-        $errmsg = "";
-        $code = 0;
-
-        try{
-            if($result = $this->pdo->query($sqlString)->fetchAll()){
-                foreach($result as $record){
-                    array_push($data, $record);
-                }
-                $result = null;
-                $code = 200;
-                return array("code" => $code, "data" => $data);
-            }
-            else{
-                $errmsg = "No data found";
-                $code = 404;
-            }
+        $result = $this->getDataByTable('adult_swim_bumps', $condition, $this->pdo);
+        if($result['code'] == 200){
+            return $this->generateResponse($result['data'], "success", "Successfully retrieved records", $result['code']);
         }
-        catch(\PDOException $e){
-            $errmsg = $e -> getMessage();
-            $code = 403;
+        return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
+
+    }
+
+
+    public function getChannel($id = null){
+        $condition = "isdeleted = 0";
+        if($id != null){
+            $condition .= " AND id=" . $id;
         }
 
-        return array("code" => $code, "errmsg" => $errmsg);
+        $result = $this->getDataByTable('cards_tbl', $condition, $this->pdo);
+        if($result['code'] == 200){
+            return $this->generateResponse($result['data'], "success", "successfully retrieved records", $result['code']);
+        }
+        return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
+
     }
 }
 
