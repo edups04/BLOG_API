@@ -7,6 +7,24 @@ class Authentication{
         $this -> pdo = $pdo;
     }
 
+    public function isAuthorized() {
+        //compare request token to database token
+        $headers = getallheaders();
+        return $headers['Authorization'] == $this->getToken();
+    }
+
+    private function getToken(){
+        //retrieve token from database
+        $headers = getallheaders();
+        
+        $sqlString = "SELECT token FROM accounts_tbl WHERE username=?";
+        $stmt = $this->pdo->prepare($sqlString);
+        $stmt->execute([$headers['X-Auth-User']]);
+        $result = $stmt->fetchAll()[0];
+        return $result['token'];
+
+    }
+
     private function generateHeader() {
             $header = [
                 "typ" => "JWT",

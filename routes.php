@@ -32,6 +32,7 @@ else{
 switch($_SERVER['REQUEST_METHOD']){
 
     case "GET":
+        if($auth->isAuthorized()){
         switch($request[0]){
 
             case "shows":
@@ -48,6 +49,10 @@ switch($_SERVER['REQUEST_METHOD']){
                 echo "This is invalid endpoint";
             break;
         }
+    }
+    else {
+        echo "Unauthorized";
+    }
 
     break;
 
