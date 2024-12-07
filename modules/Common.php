@@ -1,6 +1,14 @@
 <?php
 Class Common{
 
+    protected function logger ($user, $method, $action){
+        //date and time, user, method, message -> text file .log
+        $filename = date("Y-m-d") . ".log";
+        $datetime = date("Y-m-d H:i:s");
+        $logmessage = "$datetime, $method, $user, $action" . PHP_EOL;
+        file_put_contents("./logs/$filename", $logmessage, FILE_APPEND | LOCK_EX);
+    }
+
     private function generateInsertString($tableName, $body){
         $keys = array_keys($body);
         $fields = implode(",", $keys);

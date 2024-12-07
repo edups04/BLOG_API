@@ -52,6 +52,10 @@ switch($_SERVER['REQUEST_METHOD']){
                     echo json_encode($get->getChannel());
                 }
             break;
+
+            case "log";
+                echo json_encode($get->getLogs($request[1]));
+            break;
             
 
             default:
