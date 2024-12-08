@@ -100,9 +100,9 @@ Class Common{
         foreach($body as $value){
             array_push($values, $value);
         }
-
+        print_r($body);
         try{
-            $sqlString = $this->generateInsertString($tableName, $body);
+            $sqlString = $this->generateInsertString($tableName, json_decode(json_encode($body)), true);
             $sql = $pdo->prepare($sqlString);
             $sql->execute($values);
 

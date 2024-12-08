@@ -66,7 +66,7 @@ switch($_SERVER['REQUEST_METHOD']){
 
 
     case "POST":
-        $body = json_decode(file_get_contents("php://input"), true);
+        $body = json_decode(file_get_contents("php://input"));
         switch($request[0]){
             case "login":
                 echo json_encode($auth->login($body));
@@ -77,7 +77,7 @@ switch($_SERVER['REQUEST_METHOD']){
             break;
 
             case "shows":
-                echo json_encode($post->postShows($body));
+                echo $crypt->decryptData($body);
             break;
 
             case "channel":

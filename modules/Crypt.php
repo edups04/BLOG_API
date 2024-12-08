@@ -20,7 +20,8 @@ class Crypt{
 
     public function decryptData($encryptedString){
 
-        $data = $encryptedString['data'];
+        //$data = $encryptedString['data'];
+        $data = $encryptedString->data;
         $decoded = base64_decode($data);
         $iv_decoded = substr($decoded, 0, 16); //extract IV
         $encrypted_data = substr($decoded, 16);

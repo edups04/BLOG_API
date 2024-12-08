@@ -18,13 +18,13 @@ class Authentication{
         $headers = getallheaders();
         
         $sqlString = "SELECT token FROM accounts_tbl WHERE username=?";
-        $stmt = $this->pdo->prepare($sqlString);
-        $stmt->execute([$headers['X-Auth-User']]);
-        $result = $stmt->fetchAll()[0];
-        return $result['token'];
+            $stmt = $this->pdo->prepare($sqlString);
+            $stmt->execute([$headers['X-Auth-User']]);
+            $result = $stmt->fetchAll()[0];
 
-    }
-
+            return $result['token'];
+        }
+            
     private function generateHeader() {
             $header = [
                 "typ" => "JWT",
@@ -96,6 +96,9 @@ class Authentication{
     }
     
     public function login($body){
+        
+        //$username = $body['username'];
+        //$password = $body['password'];
         $username = $body->username;
         $password = $body->password;
 
@@ -138,6 +141,7 @@ class Authentication{
         }
         catch(\PDOException $e){
             $errmsg = $e->getMessage();
+            $remarks = "failed";
             $code = 400;
         }
         return array ("payload"=>$payload, "remarks"=>$remarks, "message"=>$message, "code"=>$code);
@@ -150,6 +154,8 @@ class Authentication{
         $code = 0;
         
         $body->password = $this->encryptPassword($body->password);
+        //$body['password'] = $this->encryptPassword($body['password']);
+
 
         foreach($body as $value){
             array_push($values, $value);
